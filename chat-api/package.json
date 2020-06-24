@@ -1,0 +1,43 @@
+{
+  "name": "Meetfrank-Chat-API",
+  "version": "1.0.0",
+  "description": "Egor's personal page",
+  "author": "Egor Sazanovich <egor@sazanovi.ch>",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "node ./node_modules/mocha/bin/mocha",
+    "lint": "node ./node_modules/.bin/eslint . --cache"
+  },
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "body-parser": "^1.19.0",
+    "compression": "*",
+    "express": "*",
+    "knex": "^0.21.1",
+    "lodash": "*",
+    "module-alias": "*",
+    "mysql2": "^2.1.0",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "eslint": "*",
+    "eslint-config-airbnb-base": "*",
+    "eslint-plugin-import": "*",
+    "mocha": "*",
+    "nodemon": "*"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@app": "./app",
+    "@lib": "./app/libs",
+    "@model": "./app/models",
+    "@route": "./app/routes"
+  },
+  "pre-commit": [
+    "lint",
+    "test"
+  ]
+}

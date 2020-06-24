@@ -1,0 +1,10 @@
+FROM node:14
+
+WORKDIR /app
+ENV NODE_ENV production
+COPY package.json .
+COPY . /app
+EXPOSE 80
+CMD [ "node", "index.js" ]
+
+RUN npm install --only=production

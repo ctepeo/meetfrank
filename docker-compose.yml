@@ -1,0 +1,26 @@
+version: "3.6"
+services:
+  chat-api:
+    build:
+      context: ./chat-api
+      dockerfile: Dockerfile
+    container_name: Chat_API
+    restart: always
+    env_file: .env
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    volumes:
+      - ${APP_PATH}:/app
+    depends_on:
+      - chat-db
+  chat-db:
+    image: mariadb:latest
+    container_name: Chat_DB
+    restart: always
+    env_file: .env
+    ports:
+      - ${MYSQL_EXPOSED_PORT}:3306
+    volumes:
+      - ${MYSQL_STORAGE_PATH}:/var/lib/mysql
+      - ${MYSQL_SCHEMA_PATH}:/docker-entrypoint-initdb.d
+      - ${MYSQL_CONF_PATH}:/etc/mysql/conf.d
