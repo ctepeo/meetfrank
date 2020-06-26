@@ -5,8 +5,8 @@ import {
 } from '../actions/_actions';
 
 const initState = {
-  userName: 'ctepeo',
-  token: 'a96ee71c-c458-4ee2-9397-5c428b47287a',
+  userName: '',
+  token: null,
   isAppReady: false,
 };
 

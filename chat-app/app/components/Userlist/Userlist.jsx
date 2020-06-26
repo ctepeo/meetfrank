@@ -15,11 +15,21 @@ const Userlist = ({
   usersOnline,
   setChatTargetUserName,
 }) => {
+
+  const [ state, setState ] = useState({
+    isLoaded: false,
+  });
+
   useEffect(() => {
+    if (!usersOnline || !state.isLoaded) {
+      socket.fetchUsersOnline();
+      setState((prevState) => ({
+        ...prevState,
+        isLoaded: true,
+      }));
+    }
+  }, [ token, usersOnline, state, setState ]);
 
-    socket.fetchUsersOnline();
-
-  }, [ token, usersOnline ]);
   const history = useHistory();
   const { t } = useTranslation();
 

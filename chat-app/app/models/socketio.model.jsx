@@ -60,7 +60,7 @@ socket.connect = async () => {
           await socket.fetchUsersOnline();
           break;
         case 'chat':
-          await socket.fetchChatHistory();
+          await socket.fetchChatHistory(response.chatId);
           await socket.fetchUsersOnline();
           break;
         default:

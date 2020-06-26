@@ -6,11 +6,7 @@ postman.getAllOnlineSockets = async () => {
 
 		const db = await dbPool.get();
 		return await db
-			.table('Sessions')
-			.where({
-				'FROM_USER_ID': currentUser.USER_ID,
-				'TO_USER_ID': chatId,
-			});
+			.table('Sessions');
 	}
 	catch (e) {
 		console.error('Could not find a user by username', e);

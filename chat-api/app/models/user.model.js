@@ -57,7 +57,7 @@ userModel.findBySocketId = async (socketId) => {
 			.first();
 	}
 	catch (e) {
-		console.error('Could not get userlist', e);
+		console.error(`Could not get by socketId ${socketId}`, e);
 		return null;
 	}
 };
