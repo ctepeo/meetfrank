@@ -10,7 +10,7 @@ import {
 
 const socket = {
   handler: null,
-  token: 'a96ee71c-c458-4ee2-9397-5c428b47287a',
+  token: null,
 };
 
 socket.connect = async () => {
@@ -29,6 +29,7 @@ socket.connect = async () => {
 
     socket.handler.on('oops', async (response) => {
       console.error('[OOPS]', response);
+      window.location = '/';
     });
 
     socket.handler.on('online', async (response) => {
@@ -48,8 +49,23 @@ socket.connect = async () => {
       if (seenMsgs.length) {
         return await socket.emitMessage('seenMessage', {
           token: socket.token,
-          messages: seenMsgs
+          messages: seenMsgs,
         });
+      }
+    });
+
+    socket.handler.on('askme', async (response) => {
+      switch (response.type) {
+        case 'online':
+          await socket.fetchUsersOnline();
+          break;
+        case 'chat':
+          await socket.fetchChatHistory();
+          await socket.fetchUsersOnline();
+          break;
+        default:
+          console.log(response);
+          break;
       }
     });
 

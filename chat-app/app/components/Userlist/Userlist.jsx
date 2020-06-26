@@ -16,9 +16,9 @@ const Userlist = ({
   setChatTargetUserName,
 }) => {
   useEffect(() => {
-    if (!usersOnline) {
-      socket.fetchUsersOnline();
-    }
+
+    socket.fetchUsersOnline();
+
   }, [ token, usersOnline ]);
   const history = useHistory();
   const { t } = useTranslation();

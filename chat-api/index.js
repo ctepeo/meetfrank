@@ -6,6 +6,7 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const userModel = require('@model/user.model.js');
 const chatModel = require('@model/chat.model.js');
+const postman = require('@model/postman.model.js');
 
 const apiPort = process.env.APP_PORT || 80;
 
@@ -13,7 +14,6 @@ const apiPort = process.env.APP_PORT || 80;
 	try {
 
 		const isRequestValid = (socketId, request) => {
-			return true;
 			return request.token && userModel.tokens[socketId] &&
 				userModel.tokens[socketId] == request.token;
 		};
@@ -30,6 +30,11 @@ const apiPort = process.env.APP_PORT || 80;
 					success: true,
 					token: token,
 				});
+
+				socket.broadcast.emit('askme', {
+					success: true,
+					type: 'online',
+				});
 			});
 
 			socket.on('online', async (data) => {
@@ -40,7 +45,7 @@ const apiPort = process.env.APP_PORT || 80;
 					});
 				}
 				const userList = await userModel.getUserlist(
-					'cTbuKhdYGPEVs2M9AAAC');
+					socket.id);
 				socket.emit('online', {
 					success: true,
 					userlist: userList,
@@ -55,7 +60,7 @@ const apiPort = process.env.APP_PORT || 80;
 					});
 				}
 				const chatHistory = await chatModel.getChatHistory(
-					'cTbuKhdYGPEVs2M9AAAC', data.chatId);
+					socket.id, data.chatId);
 				socket.emit('chat', {
 					success: true,
 					chat: chatHistory,
@@ -70,7 +75,19 @@ const apiPort = process.env.APP_PORT || 80;
 					});
 				}
 				const messageId = await chatModel.addMessage(
-					'cTbuKhdYGPEVs2M9AAAC', data.chatId, data.message);
+					socket.id, data.chatId, data.message);
+
+				socket.broadcast.emit('askme', {
+					success: true,
+					type: 'chat',
+					chatId: data.chatId,
+				});
+				const currentUser = await userModel.findBySocketId(socketId);
+				socket.broadcast.emit('askme', {
+					success: true,
+					type: 'chat',
+					chatId: currentUser.USER_ID,
+				});
 			});
 
 			socket.on('seenMessage', async (data) => {
@@ -81,7 +98,11 @@ const apiPort = process.env.APP_PORT || 80;
 					});
 				}
 				await chatModel.seenMessages(
-					'cTbuKhdYGPEVs2M9AAAC', data.messages);
+					socket.id, data.messages);
+				socket.broadcast.emit('askme', {
+					success: true,
+					type: 'online',
+				});
 			});
 
 			socket.on('disconnect', async () => {
