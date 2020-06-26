@@ -1,5 +1,8 @@
 import {
   SET_USERS_ONLINE,
+  SET_CHAT_LOADING,
+  SET_CHAT_TARGET_USERNAME,
+  SET_CHAT_HISTORY,
 } from './_actions';
 
 const setUserlist = (usersOnline) => async (dispatch) => {
@@ -11,13 +14,31 @@ const setUserlist = (usersOnline) => async (dispatch) => {
   });
 };
 
-const fetchChatHistory = () => async (dispatch) => {
+const setChatLoading = (isChatLoading) => async (dispatch) => {
   return dispatch({
-    type: SET_USERS_ONLINE,
+    type: SET_CHAT_LOADING,
     data: {
-      //usersOnline: usersOnline,
+      isChatLoading: isChatLoading,
     },
   });
 };
 
-export { setUserlist };
+const setChatTargetUserName = (chatTargetUserName) => async (dispatch) => {
+  return dispatch({
+    type: SET_CHAT_TARGET_USERNAME,
+    data: {
+      chatTargetUserName: chatTargetUserName,
+    },
+  });
+};
+
+const setChatHistory = (chatHistory) => async (dispatch) => {
+  return dispatch({
+    type: SET_CHAT_HISTORY,
+    data: {
+      chatHistory: chatHistory,
+    },
+  });
+};
+
+export { setUserlist, setChatLoading, setChatTargetUserName, setChatHistory };

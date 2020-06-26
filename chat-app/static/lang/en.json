@@ -9,5 +9,10 @@
     "currently_online": "Currently online",
     "currently_online_empty": "Currently online only you",
     "unread_badge": "unread"
+  },
+  "chat": {
+    "go_back": "Back",
+    "send_button": "Send",
+    "message_placeholder": "Your message"
   }
 }

@@ -2,7 +2,11 @@ import socketIOClient from 'socket.io-client';
 import env from '_config/env.config.jsx';
 import { store } from '_utils/configureStore';
 import { signedIn } from '_app/actions/signin.actions';
-import { setUserlist } from '_app/actions/chat.actions';
+import {
+  setUserlist,
+  setChatHistory,
+  setChatLoading,
+} from '_app/actions/chat.actions';
 
 const socket = {
   handler: null,
@@ -12,6 +16,7 @@ const socket = {
 socket.connect = async () => {
   try {
     socket.handler = await socketIOClient(env.api);
+
     socket.handler.on('signin', async (response) => {
       if (response.success && response.token) {
         socket.token = response.token;
@@ -21,12 +26,20 @@ socket.connect = async () => {
         console.error('Could not sign in', response);
       }
     });
+
     socket.handler.on('oops', async (response) => {
       console.error('[OOPS]', response);
     });
+
     socket.handler.on('online', async (response) => {
       await store.dispatch(setUserlist(response.userlist));
     });
+
+    socket.handler.on('chat', async (response) => {
+      await store.dispatch(setChatHistory(response.chat));
+      await store.dispatch(setChatLoading(false));
+    });
+
     return socket.handler;
   }
   catch (e) {
@@ -53,6 +66,21 @@ socket.sendSignIn = async (userName) => {
 socket.fetchUsersOnline = async () => {
   return await socket.emitMessage('online', {
     token: socket.token,
+  });
+};
+
+socket.fetchChatHistory = async (chatId) => {
+  return await socket.emitMessage('chat', {
+    token: socket.token,
+    chatId: chatId,
+  });
+};
+
+socket.sendChatMessage = async (message, chatId) => {
+  return await socket.emitMessage('sendMessage', {
+    token: socket.token,
+    message: message,
+    chatId: chatId,
   });
 };
 

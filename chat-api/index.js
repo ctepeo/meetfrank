@@ -5,6 +5,7 @@ const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const userModel = require('@model/user.model.js');
+const chatModel = require('@model/chat.model.js');
 
 const apiPort = process.env.APP_PORT || 80;
 
@@ -44,6 +45,32 @@ const apiPort = process.env.APP_PORT || 80;
 					success: true,
 					userlist: userList,
 				});
+			});
+
+			socket.on('chat', async (data) => {
+				if (!isRequestValid(socket.id, data) || !data.chatId) {
+					return socket.emit('oops', {
+						success: false,
+						message: 'Invalid token',
+					});
+				}
+				const chatHistory = await chatModel.getChatHistory(
+					'cTbuKhdYGPEVs2M9AAAC', data.chatId);
+				socket.emit('chat', {
+					success: true,
+					chat: chatHistory,
+				});
+			});
+
+			socket.on('sendMessage', async (data) => {
+				if (!isRequestValid(socket.id, data) || !data.chatId) {
+					return socket.emit('oops', {
+						success: false,
+						message: 'Invalid token',
+					});
+				}
+				const messageId = await chatModel.addMessage(
+					'cTbuKhdYGPEVs2M9AAAC', data.chatId, data.message);
 			});
 
 			socket.on('disconnect', async () => {

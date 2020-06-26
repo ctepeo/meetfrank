@@ -4,15 +4,16 @@ import i18n from '_app/utils/i18n';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classNames';
-import { tryToSignIn } from '_app/actions/signin.actions';
 import socket from '_models/socketio.model.jsx';
 
 import './Userlist.scss';
 import { Redirect } from 'react-router-dom';
+import { setChatTargetUserName } from '_app/actions/chat.actions';
 
 const Userlist = ({
   token,
   usersOnline,
+  setChatTargetUserName,
 }) => {
   useEffect(() => {
     if (!usersOnline) {
@@ -32,9 +33,9 @@ const Userlist = ({
     </div>);
   }
 
-  const openChat = (userId) => {
-    console.log(userId);
-    history.push(`/chat/${userId}`);
+  const openChat = async (userId, userName) => {
+    await setChatTargetUserName(userName);
+    return history.push(`/chat/${userId}`);
   };
 
   const users = [];
@@ -49,7 +50,9 @@ const Userlist = ({
     }
     users.push(
       <button type="button" key={user.USER_ID}
-              onClick={() => openChat(user.USER_ID)}
+              onClick={async () => await openChat(user.USER_ID,
+                user.USER_LOGIN,
+              )}
       >
         {user.USER_LOGIN}
         {unseenBadge}
@@ -71,7 +74,9 @@ const mapStateToProps = (state, ownProps) => ({
   token: state.app.token,
   usersOnline: state.chat.usersOnline,
 });
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  setChatTargetUserName,
+};
 
 export default connect(
   mapStateToProps,

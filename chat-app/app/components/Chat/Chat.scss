@@ -19,6 +19,9 @@
     > * {
       @extend .col;
       @extend .d-flex;
+      @extend .justify-content-center;
+      text-align: center;
+
 
       > button {
         @extend .mr-auto;
@@ -37,6 +40,7 @@
       padding-left: 0px;
       padding-right: 30px;
     }
+
 
   }
 
@@ -78,12 +82,16 @@
   .mf-chat-chatbox-input {
     margin-top: 1rem;
 
-    > input {
-      @extend .w-75;
-    }
+    > form {
+      @extend .w-100;
 
-    > button {
-      @extend .w-25;
+      > input {
+        @extend .w-75;
+      }
+
+      > button {
+        @extend .w-25;
+      }
     }
 
 
