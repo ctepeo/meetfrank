@@ -38,6 +38,19 @@ socket.connect = async () => {
     socket.handler.on('chat', async (response) => {
       await store.dispatch(setChatHistory(response.chat));
       await store.dispatch(setChatLoading(false));
+      const seenMsgs = [];
+      for (let i in response.chat) {
+        const msg = response.chat[i];
+        if (msg.MESSAGE_SEEN == 0) {
+          seenMsgs.push(msg.MESSAGE_ID);
+        }
+      }
+      if (seenMsgs.length) {
+        return await socket.emitMessage('seenMessage', {
+          token: socket.token,
+          messages: seenMsgs
+        });
+      }
     });
 
     return socket.handler;

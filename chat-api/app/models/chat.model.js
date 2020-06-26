@@ -27,7 +27,6 @@ chatModel.getChatHistory = async (socketId, chatId) => {
 };
 
 chatModel.addMessage = async (socketId, chatId, message) => {
-	console.log(message);
 	try {
 		const currentUser = await userModel.findBySocketId(socketId);
 		const db = await dbPool.get();
@@ -44,4 +43,23 @@ chatModel.addMessage = async (socketId, chatId, message) => {
 		return null;
 	}
 };
+
+chatModel.seenMessages = async (socketId, messagesIds) => {
+	try {
+		const currentUser = await userModel.findBySocketId(socketId);
+		const db = await dbPool.get();
+		return await db
+			.table('Messages')
+			.update({
+				MESSAGE_SEEN: 1,
+			})
+			.where('TO_USER_ID', currentUser.USER_ID)
+			.whereIn('MESSAGE_ID', messagesIds);
+	}
+	catch (e) {
+		console.error('Could not find a user by username', e);
+		return null;
+	}
+};
+
 module.exports = chatModel;

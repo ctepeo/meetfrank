@@ -73,6 +73,17 @@ const apiPort = process.env.APP_PORT || 80;
 					'cTbuKhdYGPEVs2M9AAAC', data.chatId, data.message);
 			});
 
+			socket.on('seenMessage', async (data) => {
+				if (!isRequestValid(socket.id, data)) {
+					return socket.emit('oops', {
+						success: false,
+						message: 'Invalid token',
+					});
+				}
+				await chatModel.seenMessages(
+					'cTbuKhdYGPEVs2M9AAAC', data.messages);
+			});
+
 			socket.on('disconnect', async () => {
 				console.log(`disconnected ${socket.id}`);
 				await userModel.deregisterSession(
