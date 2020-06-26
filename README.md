@@ -1,5 +1,9 @@
 # Meetfrank Chat
 
+Initial config, everything needs to be installed:
+
+`cp .env.example .env && cd ./chat-api && npm i && cd ../chat-app && npm i`
+
 Run backend as 
 
 `docker-compose up`
