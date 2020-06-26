@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import i18n from '_app/utils/i18n';
+import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classNames';
 import { tryToSignIn } from '_app/actions/signin.actions';
@@ -18,6 +19,7 @@ const Userlist = ({
       socket.fetchUsersOnline();
     }
   }, [ token, usersOnline ]);
+  const history = useHistory();
   const { t } = useTranslation();
 
   if (!token) {
@@ -30,6 +32,11 @@ const Userlist = ({
     </div>);
   }
 
+  const openChat = (userId) => {
+    console.log(userId);
+    history.push(`/chat/${userId}`);
+  };
+
   const users = [];
   for (let i in usersOnline) {
     const user = usersOnline[i];
@@ -41,7 +48,9 @@ const Userlist = ({
       </div>;
     }
     users.push(
-      <button type="button" key={user.USER_ID}>
+      <button type="button" key={user.USER_ID}
+              onClick={() => openChat(user.USER_ID)}
+      >
         {user.USER_LOGIN}
         {unseenBadge}
       </button>,

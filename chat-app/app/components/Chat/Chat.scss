@@ -1,0 +1,91 @@
+@import '~components/variables.scss';
+
+.mf-chat-chatbox {
+  @extend .h-100;
+  @extend .d-flex;
+  @extend .flex-column;
+
+  > * {
+    @extend .d-flex;
+    @extend .w-100;
+  }
+
+  .mf-chat-chatbox-navbar {
+    @extend .justify-content-center;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+
+    > * {
+      @extend .col;
+      @extend .d-flex;
+
+      > button {
+        @extend .mr-auto;
+        font-weight: normal;
+        border: none;
+        background-color: transparent;
+        font-size: 16px;
+        color: $color-blue;
+        padding-left: 0px;
+
+      }
+    }
+
+    > div:nth-child(1) {
+      text-align: left;
+      padding-left: 0px;
+      padding-right: 30px;
+    }
+
+  }
+
+  .mf-chat-chatbox-messages {
+    @extend .h-100;
+    @extend .d-flex;
+    @extend .flex-column-reverse;
+    @extend .align-items-end;
+
+    > div {
+      @extend .d-flex;
+      @extend .w-100;
+
+      > div {
+
+        border: 1px solid $color-gray;
+        font-size: 16px;
+        padding: 20px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        box-sizing: border-box;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 30px;
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+
+        &.from-me {
+          @extend .ml-auto;
+          background-color: $color-gray;
+          border-top-left-radius: 30px;
+          border-top-right-radius: 30px;
+          border-bottom-left-radius: 30px;
+          border-bottom-right-radius: 10px;
+        }
+      }
+    }
+  }
+
+  .mf-chat-chatbox-input {
+    margin-top: 1rem;
+
+    > input {
+      @extend .w-75;
+    }
+
+    > button {
+      @extend .w-25;
+    }
+
+
+  }
+}

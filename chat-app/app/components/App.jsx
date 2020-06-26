@@ -7,6 +7,7 @@ import { fas, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import i18n from '_app/utils/i18n';
 import SignIn from './SignIn/SignIn';
 import Userlist from './Userlist/Userlist';
+import Chat from './Chat/Chat';
 
 import { setAppReady } from '_app/actions/app.actions';
 import socket from '_models/socketio.model.jsx';
@@ -51,6 +52,7 @@ const App = ({
         <Switch>
           <Route exact path="/" component={SignIn} />
           <Route exact path="/userlist" component={Userlist} />
+          <Route exact path="/chat/:chatId" component={Chat} />
         </Switch>
       </BrowserRouter>
     );
