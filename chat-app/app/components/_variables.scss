@@ -1,0 +1,43 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/mixins";
+
+//  Bootstrap
+$enable-rounded: true;
+$enable-shadows: true;
+$enable-gradients: false;
+$enable-grid-classes: true;
+$enable-print-styles: true;
+
+// Typography
+
+$font-size-base: 20px; // this changes the font-size throughout bootstrap
+$font-family-sans-serif: 'Helvetica', sans-serif;
+$font-size-base: 1.5rem;
+$line-height-base: 1.6;
+
+$color-white: #FFFFFF;
+
+$color-gray: #E4E9EC;
+$color-medium-gray: #C4C8CB;
+$color-dark-gray: #A1AAB1;
+$color-gray-1: #333333;
+
+$color-blue: #4967E2;
+
+$color-black: #000000;
+
+.dark-gray {
+  color: $color-dark-gray;
+  mix-blend-mode: normal;
+  opacity: 0.94;
+}
+
+@import "~bootstrap/scss/variables";
+
+// components to import from BS
+@import '~bootstrap/scss/bootstrap-grid';
+@import '~bootstrap/scss/type';
+@import '~bootstrap/scss/utilities';
+@import '~bootstrap/scss/dropdown';
+@import '~bootstrap/scss/list-group';
+@import '~bootstrap/scss/badge';

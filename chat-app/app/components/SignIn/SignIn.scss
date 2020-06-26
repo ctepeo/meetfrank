@@ -1,0 +1,24 @@
+@import '~components/variables.scss';
+
+.mf-chat-sign-in {
+  @extend .h-100;
+  @extend .d-flex;
+  @extend .flex-column;
+
+  > * {
+    @extend .d-flex;
+    @extend .w-100;
+    margin-top: 2rem;
+  }
+
+  > h2 {
+    @extend .mt-auto;
+    font-size: 22px;
+    line-height: 24px;
+    font-weight: bold;
+  }
+
+  > button {
+    margin-bottom: 30px;
+  }
+}

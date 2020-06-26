@@ -1,0 +1,56 @@
+@import '~components/variables';
+
+html {
+  @extend .h-100;
+
+  body {
+    @extend .d-flex;
+    @extend .flex-column;
+    @extend .h-100;
+    margin: 20px;
+
+    #mf-chat-app {
+      @extend .d-flex;
+      @extend .flex-column;
+      @extend .h-100;
+
+      input {
+        @extend .dark-gray;
+        border: none;
+        font-size: 15px;
+        border-bottom: 2px solid $color-gray;
+        color: $color-gray-1;
+        outline: none;
+        background-color: $color-white;
+
+        &:-webkit-autofill, &-webkit-autofill:focus, &-webkit-autofill:active {
+          background-color: $color-white !important;
+          transition: background-color 5000s ease-in-out 0s;
+        }
+      }
+
+      button[type="submit"] {
+        @extend .justify-content-center;
+        font-size: 14px;
+        font-weight: bold;
+        border: none;
+        border-radius: 150px;
+        color: $color-white;
+        background-color: $color-blue;
+        box-shadow: 0px 2px 4px rgba($color-blue, 0.340636);
+        padding: 15px;
+
+        &.disabled {
+          background-color: $color-medium-gray;
+          box-shadow: 0px 2px 4px rgba($color-medium-gray, 0.340636);
+        }
+      }
+
+    }
+  }
+}
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Theme

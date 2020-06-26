@@ -1,0 +1,45 @@
+@import '~components/variables.scss';
+
+.mf-chat-userlist {
+  @extend .h-100;
+  @extend .d-flex;
+  @extend .flex-column;
+
+  > * {
+    @extend .d-flex;
+    @extend .w-100;
+  }
+
+  > h2 {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  > div {
+    @extend .list-group;
+    @extend .list-group-flush;
+
+    > button {
+      @extend .list-group-item;
+      @extend .list-group-item-action;
+      @extend .d-flex;
+      @extend .justify-content-start;
+
+      font-size: 15px;
+      border-bottom: 2px solid $color-gray;
+
+      > div {
+        @extend .ml-auto;
+        font-size: 12px;
+
+        > span {
+          @extend .badge;
+          @extend .badge-primary;
+          @extend .badge-pill;
+          margin-left: 5px;
+          background-color: $color-blue;
+        }
+      }
+    }
+  }
+}

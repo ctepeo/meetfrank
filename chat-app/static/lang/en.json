@@ -1,0 +1,12 @@
+{
+  "signin": {
+    "welcome": "Join the chat!",
+    "username_placeholder": "Username",
+    "action_button": "Start",
+    "action_button_loading": "Starting"
+  },
+  "userlist": {
+    "currently_online": "Currently online",
+    "unread_badge": "unread"
+  }
+}
