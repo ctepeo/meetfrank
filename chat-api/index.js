@@ -9,39 +9,60 @@ const userModel = require('@model/user.model.js');
 const apiPort = process.env.APP_PORT || 80;
 
 (async () => {
-		try {
+	try {
 
-			// sockets handling
-			io.on('connection', (socket) => {
-				console.log(`connected ${socket.id}`);
-				socket.on('signin', async (userName) => {
-					await userModel.registerSession(userName,
-						socket.id,
-					);
+		const isRequestValid = (socketId, request) => {
+			return true;
+			return request.token && userModel.tokens[socketId] &&
+				userModel.tokens[socketId] == request.token;
+		};
 
-					socket.emit('signin', {
-						success: true,
+		// sockets handling
+		io.on('connection', (socket) => {
+			console.log(`connected ${socket.id}`);
+			socket.on('signin', async (userName) => {
+				const token = await userModel.registerSession(userName,
+					socket.id,
+				);
+
+				socket.emit('signin', {
+					success: true,
+					token: token,
+				});
+			});
+
+			socket.on('online', async (data) => {
+				if (!isRequestValid(socket.id, data)) {
+					return socket.emit('oops', {
+						success: false,
+						message: 'Invalid token',
 					});
-				});
-
-				socket.on('disconnect', async () => {
-					console.log(`disconnected ${socket.id}`);
-					await userModel.deregisterSession(
-						socket.id,
-					);
+				}
+				const userList = await userModel.getUserlist(
+					'cTbuKhdYGPEVs2M9AAAC');
+				socket.emit('online', {
+					success: true,
+					userlist: userList,
 				});
 			});
 
-			server.listen(apiPort, () => {
-				// eslint-disable-next-line no-console
-				console.info(`Server is listening on port ${apiPort}`);
+			socket.on('disconnect', async () => {
+				console.log(`disconnected ${socket.id}`);
+				await userModel.deregisterSession(
+					socket.id,
+				);
 			});
+		});
 
-		}
-		catch (error) {
+		server.listen(apiPort, () => {
 			// eslint-disable-next-line no-console
-			console.error('[INDEX] > CRASHED DURING BOOTSTRAP', error);
-		}
+			console.info(`Server is listening on port ${apiPort}`);
+		});
+
 	}
-)();
+	catch (error) {
+		// eslint-disable-next-line no-console
+		console.error('[INDEX] > CRASHED DURING BOOTSTRAP', error);
+	}
+})();
 

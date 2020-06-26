@@ -26,7 +26,10 @@
       @extend .justify-content-start;
 
       font-size: 15px;
+      font-weight: 300;
       border-bottom: 2px solid $color-gray;
+      padding-left: 0px;
+      padding-right: 0px;
 
       > div {
         @extend .ml-auto;

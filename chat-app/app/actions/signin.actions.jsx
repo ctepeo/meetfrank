@@ -1,5 +1,5 @@
 import {
-  SET_SIGNIN_PROCESSING, SET_SIGNIN_REDIRECT,
+  SET_SIGNIN_PROCESSING, SET_SIGNIN_REDIRECT, SET_TOKEN,
 } from './_actions';
 import socket from '_models/socketio.model.jsx';
 
@@ -19,7 +19,14 @@ const tryToSignIn = (userName) => async (dispatch) => {
   return true;
 };
 
-const signedIn = () => async (dispatch) => {
+const signedIn = (token) => async (dispatch) => {
+  // store token
+  await dispatch({
+    type: SET_TOKEN,
+    data: {
+      token: token,
+    },
+  });
   // all done
   await dispatch({
     type: SET_SIGNIN_PROCESSING,

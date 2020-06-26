@@ -112,6 +112,7 @@ if (environment.mode === 'development') {
     disableHostCheck: true,
     http2: false,
     https: false,
+    historyApiFallback: true,
     publicPath: `http://${environment.host}:${environment.port}`,
     clientLogLevel: 'warning',
     headers: {

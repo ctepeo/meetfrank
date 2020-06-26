@@ -7,6 +7,7 @@
   },
   "userlist": {
     "currently_online": "Currently online",
+    "currently_online_empty": "Currently online only you",
     "unread_badge": "unread"
   }
 }
